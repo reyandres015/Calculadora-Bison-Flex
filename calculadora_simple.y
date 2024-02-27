@@ -10,9 +10,8 @@ extern int yylex(void);
 extern char* yytext;
 extern int nlines;
 int yyerror(char *s);
-int toRadians(int grados);
-int varTan(int grados);
 void imprime(int resultado);
+void imprimeBool(const char* resultado);
 void imprime_invalido();
 short int valores=1;
 extern FILE * yyin;
@@ -46,25 +45,19 @@ Variable* buscarVariable(Variable* cabeza,char* nombreVar);
 %token TKN_MENOS
 %token TKN_MULT
 %token TKN_MOD
-%token TKN_RAIZ
 %token TKN_DIV
 %token TKN_POW
 %token TKN_AND
 %token TKN_PA
 %token TKN_PC
-%token TKN_SEN
-%token TKN_COS
-%token TKN_TAN
 %token TKN_ASIGN
 %token TKN_ID
 %left TKN_ASIGN
 %left TKN_MAS TKN_MENOS TKN_MOD
-%left TKN_MULT TKN_DIV
-%left TKN_SEN TKN_COS TKN_TAN 
+%left TKN_MULT TKN_DIV 
 %left TKN_POW
 %left TKN_AND
 //%left TKN_PA TKN_PC
-%left TKN_RAIZ
 %start instrucciones
 %%
 
@@ -74,8 +67,15 @@ instrucciones : instrucciones calculadora
 		
 calculadora	: expresion TKN_PTOCOMA 
 			{
-				if(valores > 0){
+				if(valores == 1){
 					imprime($1);
+				}
+				else if (valores == 2){
+					if($1 == 1){
+						imprimeBool("true");
+					} else if ($1 == 0){
+						imprimeBool("false");
+					}
 				}
 				else
 				{
@@ -100,8 +100,8 @@ expresion	: TKN_NUM { $$ = $1; }
 			| expresion TKN_MOD expresion { $$ = fmod($1,$3); }
 			| expresion TKN_AND expresion 
 			{ 
-				
 				$$ = $1 & $3; 
+				valores = 2;
 			}
 			| expresion TKN_DIV expresion
 			{
@@ -115,21 +115,6 @@ expresion	: TKN_NUM { $$ = $1; }
 					valores = 1;
 				}
 			}
-			| TKN_SEN expresion { $$ = sin(toRadians($2)); }
-			| TKN_COS expresion { $$ = cos(toRadians($2)); }
-			| TKN_TAN expresion 
-			{
-				if(-0.000001 < cos(toRadians($2)) && cos(toRadians($2)) < 0.000001)
-				{
-					valores = 0;
-				}
-				else
-				{
-					$$ = tan(toRadians($2));
-					valores = 1;
-				
-				}
-			} 
 			;
 
 %%
@@ -139,25 +124,13 @@ int yyerror(char *s)
 	printf("%s\n", s);
 }
 
-
-int toRadians(int grados)
-{
-	return grados*(3.1415926535/180);
-}
-
-int varTan(int grados){
-	int t = toRadians(grados);
-	return cos(t);
-}
-
 void imprime(int resultado)
 {
 	fprintf(fsalida,"Resultado %X en Hexadecimal\nResultado %i en Decimal\n\n",resultado,resultado);
 }
 
-void imprimeBool(bool resultado){
-	const char* texto = resultado ? "true" : "false";
-    fprintf(fsalida, "Resultado %s\n", texto);
+void imprimeBool(const char* resultado){
+    fprintf(fsalida, "Resultado %s\n", resultado);
 }
 
 void imprime_invalido()

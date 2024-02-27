@@ -1,6 +1,4 @@
 Resultado 4 en Hexadecimal
 Resultado 4 en Decimal
 
-Resultado 1 en Hexadecimal
-Resultado 1 en Decimal
-
+Resultado true
