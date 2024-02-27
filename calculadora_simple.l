@@ -25,6 +25,7 @@ constEntera {DIGITO}({DIGITO})*
 "%"     { return TKN_MOD; }
 "/"     { return TKN_DIV; }
 "&"     { return TKN_AND; }
+"|"     { return TKN_OR; }
 "("     { return TKN_PA; }
 ")"     { return TKN_PC; }
 "="     { return TKN_ASIGN; }

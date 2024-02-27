@@ -1,4 +1,14 @@
-Resultado 4 en Hexadecimal
-Resultado 4 en Decimal
+Resultado A en Hexadecimal
+Resultado 10 en Decimal
 
+Resultado 54 en Hexadecimal
+Resultado 84 en Decimal
+
+Resultado 10 en Hexadecimal
+Resultado 16 en Decimal
+
+Resultado 0 en Hexadecimal
+Resultado 0 en Decimal
+
+Resultado true
 Resultado true

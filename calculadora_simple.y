@@ -48,6 +48,7 @@ Variable* buscarVariable(Variable* cabeza,char* nombreVar);
 %token TKN_DIV
 %token TKN_POW
 %token TKN_AND
+%token TKN_OR
 %token TKN_PA
 %token TKN_PC
 %token TKN_ASIGN
@@ -56,7 +57,7 @@ Variable* buscarVariable(Variable* cabeza,char* nombreVar);
 %left TKN_MAS TKN_MENOS TKN_MOD
 %left TKN_MULT TKN_DIV 
 %left TKN_POW
-%left TKN_AND
+%left TKN_AND TKN_OR
 //%left TKN_PA TKN_PC
 %start instrucciones
 %%
@@ -101,6 +102,11 @@ expresion	: TKN_NUM { $$ = $1; }
 			| expresion TKN_AND expresion 
 			{ 
 				$$ = $1 & $3; 
+				valores = 2;
+			}
+			| expresion TKN_OR expresion 
+			{ 
+				$$ = $1 | $3; 
 				valores = 2;
 			}
 			| expresion TKN_DIV expresion
