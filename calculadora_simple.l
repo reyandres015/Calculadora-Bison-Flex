@@ -10,9 +10,19 @@ identificador   {letra}({letra}|{DIGITO})*
 constEntera {DIGITO}({DIGITO})*
 %%
 
-"-"?{DIGITO}+("."{DIGITO}+)? {
-    yylval.real=atof(yytext);
-    return (TKN_NUM);
+0x[a-fA-F0-9]+ {
+    yylval.real = strtol(yytext, NULL, 16); // Convertir a entero hexadecimal
+    return TKN_NUM;
+}
+
+{DIGITO}+"."{DIGITO}+ {
+    yylval.real = atof(yytext);
+    return TKN_NUM;
+}
+
+{DIGITO}+ {
+    yylval.real = atof(yytext);
+    return TKN_NUM;
 }
 
 {separador} { /* Descartar espacios y tabulaciones */ }

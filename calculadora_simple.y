@@ -90,8 +90,7 @@ calculadora	: expresion TKN_PTOCOMA
 			 	//BUscar variable y traer el valor, si no existe agregar variable
 			 }
 			;
- 
-
+			
 expresion	: TKN_NUM { $$ = $1; }
 			| TKN_PA expresion TKN_PC { $$ = $2; }
 			| expresion TKN_MAS expresion { $$ = $1 + $3; }
