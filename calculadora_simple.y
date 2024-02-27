@@ -184,22 +184,24 @@ Variable* buscarVariable(Variable* cabeza,char nombreVar[]){
 
 int main(int argc, char **argv)
 {
-	cabeza = NULL;
+    cabeza = NULL;
 
-	if(argc > 2)
-	{
-		yyin = fopen(argv[1],"r");
-		fsalida = fopen(argv[2], "w");
-	}
-	else
-	{
-		printf("Forma de uso: ./salida archivo_entrada archivo_salida\n");
-		return 0;
-	}
-	/*Acciones a ejecutar antes del analisis*/
-	yyparse();
-	/*Acciones a ejecutar despues del analisis*/
-	
-	return 0;
+    if (argc != 1) // No se aceptan argumentos de línea de comandos
+    {
+        printf("Forma de uso: ./salida\n");
+        return 0;
+    }
+
+    char texto[1000]; // Tamaño del texto a leer, puedes ajustarlo según tus necesidades
+
+    printf("Ingrese el texto:\n");
+    fgets(texto, sizeof(texto), stdin); // Leer texto desde la entrada estándar
+
+    yyin = fmemopen(texto, strlen(texto), "r"); // Abrir texto como archivo para analizar
+
+    /* Acciones a ejecutar antes del análisis */
+    yyparse();
+    /* Acciones a ejecutar después del análisis */
+
+    return 0;
 }
-
