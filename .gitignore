@@ -1,0 +1,11 @@
+# Ignorar todos los archivos
+*
+
+# Excepto los archivos con extensión .y y .l
+!*.y
+!*.l
+!*.txt
+# README
+!*.md 
+#.gitignore
+!*.gitignore
