@@ -9,9 +9,9 @@ extern int yylex(void);
 extern char* yytext;
 extern int nlines;
 int yyerror(char *s);
-float toRadians(float grados);
-float varTan(float grados);
-void imprime(float resultado);
+int toRadians(int grados);
+int varTan(int grados);
+void imprime(int resultado);
 void imprime_invalido();
 short int valores=1;
 extern FILE * yyin;
@@ -20,21 +20,21 @@ FILE * fsalida;
 typedef struct Elemento {
 	
 	char nombre[25] ; 
-	float valor; 	 
+	int valor; 	 
 	struct Elemento* siguiente;
 
 }Variable;
 
 Variable *cabeza;
-void insertarEnLista(Variable** vCabeza , float valorVar, char* nombreVar);
-Variable* nuevaVariable(float valorVar, char* nombreVar);
+void insertarEnLista(Variable** vCabeza , int valorVar, char* nombreVar);
+Variable* nuevaVariable(int valorVar, char* nombreVar);
 void imprimirVariables();
 Variable* buscarVariable(Variable* cabeza,char* nombreVar);
 
 %}
 
 %union{
-	float real;
+	int real;
 	char *cadena;
 }
 
@@ -144,19 +144,19 @@ int yyerror(char *s)
 }
 
 
-float toRadians(float grados)
+int toRadians(int grados)
 {
 	return grados*(3.1415926535/180);
 }
 
-float varTan(float grados){
-	float t = toRadians(grados);
+int varTan(int grados){
+	int t = toRadians(grados);
 	return cos(t);
 }
 
-void imprime(float resultado)
+void imprime(int resultado)
 {
-	fprintf(fsalida,"Resultado %X\n",resultado);
+	fprintf(fsalida,"Resultado %X en Hexadecimal\nResultado %i en Decimal\n\n",resultado,resultado);
 }
 
 void imprime_invalido()
@@ -164,7 +164,7 @@ void imprime_invalido()
 	fprintf(fsalida,"Valor indefinido\n");
 }
 
-void insertarEnLista(Variable** cabeza , float valorVar, char nombreVar[]){
+void insertarEnLista(Variable** cabeza , int valorVar, char nombreVar[]){
 	Variable *nueva;
 	nueva = nuevaVariable(valorVar,nombreVar);
 	nueva -> siguiente = *cabeza;
@@ -172,14 +172,14 @@ void insertarEnLista(Variable** cabeza , float valorVar, char nombreVar[]){
 }
 
 
-Variable* nuevaVariable(float valorVar, char nombreVar[]){
+Variable* nuevaVariable(int valorVar, char nombreVar[]){
 	Variable *var;
 	var = (Variable*)malloc(sizeof(Variable));
 	//var -> nombre = nombreVar;
 	strcpy( var->nombre, nombreVar );
 	var -> valor = valorVar;
 	var -> siguiente = NULL;
-	printf("\n[vl]Nueva variable: <%s> = %5.2f\n",nombreVar,valorVar);
+	printf("\n[vl]Nueva variable: <%s> = %i\n",nombreVar,valorVar);
 	return var;
 }
 
