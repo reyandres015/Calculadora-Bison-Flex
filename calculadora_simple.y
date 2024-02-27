@@ -40,7 +40,6 @@ Variable* buscarVariable(Variable* cabeza,char* nombreVar);
 
 %token <real> TKN_NUM
 %type <real> expresion
-%type <cadena> TKN_ID
 %token TKN_PTOCOMA
 %token TKN_MAS
 %token TKN_MENOS
@@ -157,7 +156,7 @@ float varTan(float grados){
 
 void imprime(float resultado)
 {
-	fprintf(fsalida,"Resultado %5.5f\n",resultado);
+	fprintf(fsalida,"Resultado %X\n",resultado);
 }
 
 void imprime_invalido()
@@ -206,7 +205,7 @@ Variable* buscarVariable(Variable* cabeza,char nombreVar[]){
 
 int main(int argc, char **argv)
 {
-	cabeza = (struct Variable *) NULL;
+	cabeza = NULL;
 
 	if(argc > 2)
 	{
