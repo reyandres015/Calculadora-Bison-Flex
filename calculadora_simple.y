@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include <stdbool.h>
 
 #define PI 3.141592
 extern int yylex(void);
@@ -48,6 +49,7 @@ Variable* buscarVariable(Variable* cabeza,char* nombreVar);
 %token TKN_RAIZ
 %token TKN_DIV
 %token TKN_POW
+%token TKN_AND
 %token TKN_PA
 %token TKN_PC
 %token TKN_SEN
@@ -60,6 +62,7 @@ Variable* buscarVariable(Variable* cabeza,char* nombreVar);
 %left TKN_MULT TKN_DIV
 %left TKN_SEN TKN_COS TKN_TAN 
 %left TKN_POW
+%left TKN_AND
 //%left TKN_PA TKN_PC
 %left TKN_RAIZ
 %start instrucciones
@@ -95,17 +98,10 @@ expresion	: TKN_NUM { $$ = $1; }
 			| expresion TKN_MULT expresion { $$ = $1 * $3; }			
 			| expresion TKN_POW expresion { $$ = pow($1,$3); }
 			| expresion TKN_MOD expresion { $$ = fmod($1,$3); }
-			| TKN_RAIZ expresion 
-			{
-				if($2 < 0)
-				{
-					valores = 0;
-				}
-				else
-				{
-					$$ = sqrt($2);
-					valores = 1;
-				}
+			| expresion TKN_AND expresion 
+			{ 
+				
+				$$ = $1 & $3; 
 			}
 			| expresion TKN_DIV expresion
 			{
@@ -157,6 +153,11 @@ int varTan(int grados){
 void imprime(int resultado)
 {
 	fprintf(fsalida,"Resultado %X en Hexadecimal\nResultado %i en Decimal\n\n",resultado,resultado);
+}
+
+void imprimeBool(bool resultado){
+	const char* texto = resultado ? "true" : "false";
+    fprintf(fsalida, "Resultado %s\n", texto);
 }
 
 void imprime_invalido()
